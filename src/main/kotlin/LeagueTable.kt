@@ -1,4 +1,7 @@
 class LeagueTable {
+
+    val results = mutableListOf<String>()
+
     fun getPoints(team: String): Int {
         return 0
     }
@@ -25,6 +28,10 @@ class LeagueTable {
 
     fun getLosses(team: String): Int {
         return 0
+    }
+
+    fun push(matchResult: String) {
+        results.add(matchResult)
     }
 
 }
