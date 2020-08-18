@@ -31,23 +31,23 @@ class LeagueTableShould {
 
     @Test
     internal fun `update points after 2 results pushed`() {
-        pushHomeWinAndDraw()
+        pushHomeWinAndDrawAndLoss()
 
         assertEquals(4, leagueTable.getPoints("Manchester United"))
-        assertEquals(1, leagueTable.getPoints("Liverpool"))
+        assertEquals(4, leagueTable.getPoints("Liverpool"))
     }
 
     @Test
     internal fun `update wins after results pushed`() {
-        pushHomeWinAndDraw()
+        pushHomeWinAndDrawAndLoss()
 
         assertEquals(1, leagueTable.getWins("Manchester United"))
-        assertEquals(0, leagueTable.getWins("Liverpool"))
+        assertEquals(1, leagueTable.getWins("Liverpool"))
     }
 
     @Test
     internal fun `update draws after results pushed`() {
-        pushHomeWinAndDraw()
+        pushHomeWinAndDrawAndLoss()
 
         assertEquals(1, leagueTable.getDraws("Manchester United"))
         assertEquals(1, leagueTable.getDraws("Liverpool"))
@@ -55,15 +55,24 @@ class LeagueTableShould {
 
     @Test
     internal fun `update losses after results pushed`() {
-        pushHomeWinAndDraw()
+        pushHomeWinAndDrawAndLoss()
 
-        assertEquals(0, leagueTable.getLosses("Manchester United"))
+        assertEquals(1, leagueTable.getLosses("Manchester United"))
         assertEquals(1, leagueTable.getLosses("Liverpool"))
     }
 
-    private fun pushHomeWinAndDraw() {
+    @Test
+    internal fun `update goals for after results pushed`() {
+        pushHomeWinAndDrawAndLoss()
+
+        assertEquals(5, leagueTable.getGoalsFor("Manchester United"))
+        assertEquals(3, leagueTable.getGoalsFor("Liverpool"))
+    }
+
+    private fun pushHomeWinAndDrawAndLoss() {
         leagueTable.push("Manchester United 3 - 0 Liverpool")
         leagueTable.push("Manchester United 1 - 1 Liverpool")
+        leagueTable.push("Manchester United 1 - 2 Liverpool")
     }
 
     private fun assertZeroData(leagueTable: LeagueTable, team: String) {
