@@ -30,7 +30,7 @@ class LeagueTable {
     }
 
     fun getDraws(team: String): Int {
-        return 0
+        return stats[team]?.draws ?: 0
     }
 
     fun getLosses(team: String): Int {

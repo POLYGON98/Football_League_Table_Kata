@@ -47,6 +47,17 @@ class LeagueTableShould {
         assertEquals(0, leagueTable.getWins("Liverpool"))
     }
 
+    @Test
+    internal fun `update draws after results pushed`() {
+        val leagueTable = LeagueTable()
+
+        leagueTable.push("Manchester United 3 - 0 Liverpool")
+        leagueTable.push("Manchester United 1 - 1 Liverpool")
+
+        assertEquals(1, leagueTable.getDraws("Manchester United"))
+        assertEquals(1, leagueTable.getDraws("Liverpool"))
+    }
+
     private fun assertZeroData(leagueTable: LeagueTable, team: String) {
         assertEquals(0, leagueTable.getPoints(team))
         assertEquals(0, leagueTable.getGoalsFor(team))
