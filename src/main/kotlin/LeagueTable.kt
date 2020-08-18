@@ -1,24 +1,10 @@
 class LeagueTable {
 
     val results = mutableListOf<FootballResult>()
+    var stats = mutableMapOf<String, FootballStats>()
 
     fun getPoints(team: String): Int {
-        var totalPoints = 0
-        for (result in results) {
-            if (isHomeTeam(result, team)) {
-                if (homeTeamHasWon(result))
-                    totalPoints += 3
-                if (thereWasDraw(result))
-                    totalPoints++
-            }
-            if (isAwayTeam(result, team)) {
-                if (awayTeamHasWon(result))
-                    totalPoints += 3
-                if (thereWasDraw(result))
-                    totalPoints++
-            }
-        }
-        return totalPoints
+        return stats[team]?.points ?: 0
     }
 
     private fun awayTeamHasWon(result: FootballResult) = result.awayTeamScore > result.homeTeamScore
@@ -26,10 +12,6 @@ class LeagueTable {
     private fun thereWasDraw(result: FootballResult) = result.homeTeamScore == result.awayTeamScore
 
     private fun homeTeamHasWon(result: FootballResult) = result.homeTeamScore > result.awayTeamScore
-
-    private fun isAwayTeam(result: FootballResult, team: String) = result.awayTeam == team
-
-    private fun isHomeTeam(result: FootballResult, team: String) = result.homeTeam == team
 
     fun getGoalsFor(team: String): Int {
         return 0
@@ -44,18 +26,7 @@ class LeagueTable {
     }
 
     fun getWins(team: String): Int {
-        var wins = 0
-        for (result in results) {
-            if (isHomeTeam(result, team)) {
-                if (homeTeamHasWon(result))
-                    wins++
-            }
-            if (isAwayTeam(result, team)) {
-                if (awayTeamHasWon(result))
-                    wins++
-            }
-        }
-        return wins
+        return stats[team]?.wins ?: 0
     }
 
     fun getDraws(team: String): Int {
@@ -67,7 +38,29 @@ class LeagueTable {
     }
 
     fun push(matchResult: String) {
-        results.add(FootballResult(matchResult))
+        val resultToAdd = FootballResult(matchResult)
+        results.add(resultToAdd)
+        updateStats(resultToAdd)
+    }
+
+    private fun updateStats(resultToAdd: FootballResult) {
+        if (!stats.keys.contains(resultToAdd.homeTeam)) {
+            stats[resultToAdd.homeTeam] = FootballStats()
+        }
+        if (!stats.keys.contains(resultToAdd.awayTeam)) {
+            stats[resultToAdd.awayTeam] = FootballStats()
+        }
+        val homeTeam = stats[resultToAdd.homeTeam] ?: FootballStats()
+        val awayTeam = stats[resultToAdd.awayTeam] ?: FootballStats()
+
+        if (homeTeamHasWon(resultToAdd))
+            stats[resultToAdd.homeTeam] = FootballStats(homeTeam.points + 3, 0, 0, 0, homeTeam.wins + 1, homeTeam.draws, 0)
+        if (awayTeamHasWon(resultToAdd))
+            stats[resultToAdd.awayTeam] = FootballStats(awayTeam.points + 3, 0, 0, 0, awayTeam.wins + 1, awayTeam.draws, 0)
+        if (thereWasDraw(resultToAdd)) {
+            stats[resultToAdd.homeTeam] = FootballStats(homeTeam.points + 1, 0, 0, 0, homeTeam.wins, homeTeam.draws + 1, 0)
+            stats[resultToAdd.awayTeam] = FootballStats(awayTeam.points + 1, 0, 0, 0, awayTeam.wins, awayTeam.draws + 1, 0)
+        }
     }
 
 }
