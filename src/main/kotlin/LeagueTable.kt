@@ -44,7 +44,18 @@ class LeagueTable {
     }
 
     fun getWins(team: String): Int {
-        return 0
+        var wins = 0
+        for (result in results) {
+            if (isHomeTeam(result, team)) {
+                if (homeTeamHasWon(result))
+                    wins++
+            }
+            if (isAwayTeam(result, team)) {
+                if (awayTeamHasWon(result))
+                    wins++
+            }
+        }
+        return wins
     }
 
     fun getDraws(team: String): Int {
