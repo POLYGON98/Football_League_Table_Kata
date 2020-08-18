@@ -1,7 +1,15 @@
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LeagueTableShould {
+    lateinit var leagueTable: LeagueTable
+
+    @BeforeEach
+    internal fun setUp() {
+        leagueTable = LeagueTable()
+    }
+
     @Test
     internal fun `initialise with zero data for Manchester United`() {
         assertZeroData(LeagueTable(), "Manchester United")
@@ -9,8 +17,6 @@ class LeagueTableShould {
 
     @Test
     internal fun `push match result`() {
-        val leagueTable = LeagueTable()
-
         leagueTable.push("Manchester United 3 - 0 Liverpool")
 
         assertEquals("Manchester United 3 - 0 Liverpool", leagueTable.results[0].toString())
@@ -18,8 +24,6 @@ class LeagueTableShould {
 
     @Test
     internal fun `update points after result pushed`() {
-        val leagueTable = LeagueTable()
-
         leagueTable.push("Manchester United 3 - 0 Liverpool")
 
         assertEquals(3, leagueTable.getPoints("Manchester United"))
@@ -27,10 +31,7 @@ class LeagueTableShould {
 
     @Test
     internal fun `update points after 2 results pushed`() {
-        val leagueTable = LeagueTable()
-
-        leagueTable.push("Manchester United 3 - 0 Liverpool")
-        leagueTable.push("Manchester United 1 - 1 Liverpool")
+        pushHomeWinAndDraw()
 
         assertEquals(4, leagueTable.getPoints("Manchester United"))
         assertEquals(1, leagueTable.getPoints("Liverpool"))
@@ -38,10 +39,7 @@ class LeagueTableShould {
 
     @Test
     internal fun `update wins after results pushed`() {
-        val leagueTable = LeagueTable()
-
-        leagueTable.push("Manchester United 3 - 0 Liverpool")
-        leagueTable.push("Manchester United 1 - 1 Liverpool")
+        pushHomeWinAndDraw()
 
         assertEquals(1, leagueTable.getWins("Manchester United"))
         assertEquals(0, leagueTable.getWins("Liverpool"))
@@ -49,13 +47,17 @@ class LeagueTableShould {
 
     @Test
     internal fun `update draws after results pushed`() {
-        val leagueTable = LeagueTable()
-
-        leagueTable.push("Manchester United 3 - 0 Liverpool")
-        leagueTable.push("Manchester United 1 - 1 Liverpool")
+        pushHomeWinAndDraw()
 
         assertEquals(1, leagueTable.getDraws("Manchester United"))
         assertEquals(1, leagueTable.getDraws("Liverpool"))
+    }
+
+
+
+    private fun pushHomeWinAndDraw() {
+        leagueTable.push("Manchester United 3 - 0 Liverpool")
+        leagueTable.push("Manchester United 1 - 1 Liverpool")
     }
 
     private fun assertZeroData(leagueTable: LeagueTable, team: String) {
