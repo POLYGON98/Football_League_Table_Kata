@@ -4,9 +4,7 @@ import org.junit.jupiter.api.Test
 class LeagueTableShould {
     @Test
     internal fun `initialise with zero data for Manchester United`() {
-        val team = "Manchester United"
-        val leagueTable = LeagueTable()
-        assertZeroData(leagueTable, team)
+        assertZeroData(LeagueTable(), "Manchester United")
     }
 
     private fun assertZeroData(leagueTable: LeagueTable, team: String) {
