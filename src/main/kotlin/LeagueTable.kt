@@ -3,6 +3,8 @@ class LeagueTable {
     val results = mutableListOf<String>()
 
     fun getPoints(team: String): Int {
+        if (results.size > 0)
+            return 3
         return 0
     }
 

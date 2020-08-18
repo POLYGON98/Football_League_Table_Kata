@@ -10,18 +10,28 @@ class LeagueTableShould {
     @Test
     internal fun `push match result`() {
         val leagueTable = LeagueTable()
+
         leagueTable.push("Manchester United 3 - 0 Liverpool")
 
-        assertEquals(leagueTable.results[0], "Manchester United 3 - 0 Liverpool")
+        assertEquals("Manchester United 3 - 0 Liverpool", leagueTable.results[0])
+    }
+
+    @Test
+    internal fun `update points after result pushed`() {
+        val leagueTable = LeagueTable()
+
+        leagueTable.push("Manchester United 3 - 0 Liverpool")
+
+        assertEquals(3, leagueTable.getPoints("Manchester United"))
     }
 
     private fun assertZeroData(leagueTable: LeagueTable, team: String) {
-        assertEquals(leagueTable.getPoints(team), 0)
-        assertEquals(leagueTable.getGoalsFor(team), 0)
-        assertEquals(leagueTable.getGoalsAgainst(team), 0)
-        assertEquals(leagueTable.getGoalDifference(team), 0)
-        assertEquals(leagueTable.getWins(team), 0)
-        assertEquals(leagueTable.getDraws(team), 0)
-        assertEquals(leagueTable.getLosses(team), 0)
+        assertEquals(0, leagueTable.getPoints(team))
+        assertEquals(0, leagueTable.getGoalsFor(team))
+        assertEquals(0, leagueTable.getGoalsAgainst(team))
+        assertEquals(0, leagueTable.getGoalDifference(team))
+        assertEquals(0, leagueTable.getWins(team))
+        assertEquals(0, leagueTable.getDraws(team))
+        assertEquals(0, leagueTable.getLosses(team))
     }
 }
