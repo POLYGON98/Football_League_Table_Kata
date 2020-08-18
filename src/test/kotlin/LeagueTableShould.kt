@@ -77,6 +77,14 @@ class LeagueTableShould {
         assertEquals(5, leagueTable.getGoalsAgainst("Liverpool"))
     }
 
+    @Test
+    internal fun `update goal difference after results pushed`() {
+        pushHomeWinAndDrawAndLoss()
+
+        assertEquals(2, leagueTable.getGoalDifference("Manchester United"))
+        assertEquals(-2, leagueTable.getGoalDifference("Liverpool"))
+    }
+
     private fun pushHomeWinAndDrawAndLoss() {
         leagueTable.push("Manchester United 3 - 0 Liverpool")
         leagueTable.push("Manchester United 1 - 1 Liverpool")
