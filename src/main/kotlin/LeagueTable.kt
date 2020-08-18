@@ -48,66 +48,78 @@ class LeagueTable {
         val awayTeam = stats[resultToAdd.awayTeam] ?: FootballStats()
 
         if (homeTeamHasWon(resultToAdd)){
-            stats[resultToAdd.homeTeam] = FootballStats(
-                homeTeam.points + 3,
-                homeTeam.goalsFor + resultToAdd.homeTeamScore,
-                homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
-                homeTeam.goalDifference + resultToAdd.homeTeamScore - resultToAdd.awayTeamScore,
-                homeTeam.wins + 1,
-                homeTeam.draws,
-                homeTeam.losses
-            )
-            stats[resultToAdd.awayTeam] = FootballStats(
-                awayTeam.points,
-                awayTeam.goalsFor + resultToAdd.awayTeamScore,
-                awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
-                awayTeam.goalDifference + resultToAdd.awayTeamScore - resultToAdd.homeTeamScore,
-                awayTeam.wins,
-                awayTeam.draws,
-                awayTeam.losses + 1
-            )
+            updateWhenHomeWin(resultToAdd, homeTeam, awayTeam)
         }
         if (awayTeamHasWon(resultToAdd)) {
-            stats[resultToAdd.homeTeam] = FootballStats(
-                homeTeam.points,
-                homeTeam.goalsFor + resultToAdd.homeTeamScore,
-                homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
-                homeTeam.goalDifference + resultToAdd.homeTeamScore - resultToAdd.awayTeamScore,
-                homeTeam.wins,
-                homeTeam.draws,
-                homeTeam.losses + 1
-            )
-            stats[resultToAdd.awayTeam] = FootballStats(
-                awayTeam.points + 3,
-                awayTeam.goalsFor + resultToAdd.awayTeamScore,
-                awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
-                awayTeam.goalDifference + resultToAdd.awayTeamScore - resultToAdd.homeTeamScore,
-                awayTeam.wins + 1,
-                awayTeam.draws,
-                awayTeam.losses
-            )
+            updateWhenAwayWin(resultToAdd, homeTeam, awayTeam)
         }
         if (thereWasDraw(resultToAdd)) {
-            stats[resultToAdd.homeTeam] = FootballStats(
-                homeTeam.points + 1,
-                homeTeam.goalsFor + resultToAdd.homeTeamScore,
-                homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
-                homeTeam.goalDifference + resultToAdd.homeTeamScore - resultToAdd.awayTeamScore,
-                homeTeam.wins,
-                homeTeam.draws + 1,
-                homeTeam.losses
-            )
-            stats[resultToAdd.awayTeam] = FootballStats(
-                awayTeam.points + 1,
-                awayTeam.goalsFor + resultToAdd.awayTeamScore,
-                awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
-                awayTeam.goalDifference + resultToAdd.awayTeamScore - resultToAdd.homeTeamScore,
-                awayTeam.wins,
-                awayTeam.draws + 1,
-                awayTeam.losses
-            )
+            updateWhenDraw(resultToAdd, homeTeam, awayTeam)
         }
 
+    }
+
+    private fun updateWhenDraw(resultToAdd: FootballResult, homeTeam: FootballStats, awayTeam: FootballStats) {
+        stats[resultToAdd.homeTeam] = FootballStats(
+            homeTeam.points + 1,
+            homeTeam.goalsFor + resultToAdd.homeTeamScore,
+            homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
+            homeTeam.goalDifference + resultToAdd.homeTeamScore - resultToAdd.awayTeamScore,
+            homeTeam.wins,
+            homeTeam.draws + 1,
+            homeTeam.losses
+        )
+        stats[resultToAdd.awayTeam] = FootballStats(
+            awayTeam.points + 1,
+            awayTeam.goalsFor + resultToAdd.awayTeamScore,
+            awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
+            awayTeam.goalDifference + resultToAdd.awayTeamScore - resultToAdd.homeTeamScore,
+            awayTeam.wins,
+            awayTeam.draws + 1,
+            awayTeam.losses
+        )
+    }
+
+    private fun updateWhenAwayWin(resultToAdd: FootballResult, homeTeam: FootballStats, awayTeam: FootballStats) {
+        stats[resultToAdd.homeTeam] = FootballStats(
+            homeTeam.points,
+            homeTeam.goalsFor + resultToAdd.homeTeamScore,
+            homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
+            homeTeam.goalDifference + resultToAdd.homeTeamScore - resultToAdd.awayTeamScore,
+            homeTeam.wins,
+            homeTeam.draws,
+            homeTeam.losses + 1
+        )
+        stats[resultToAdd.awayTeam] = FootballStats(
+            awayTeam.points + 3,
+            awayTeam.goalsFor + resultToAdd.awayTeamScore,
+            awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
+            awayTeam.goalDifference + resultToAdd.awayTeamScore - resultToAdd.homeTeamScore,
+            awayTeam.wins + 1,
+            awayTeam.draws,
+            awayTeam.losses
+        )
+    }
+
+    private fun updateWhenHomeWin(resultToAdd: FootballResult, homeTeam: FootballStats, awayTeam: FootballStats) {
+        stats[resultToAdd.homeTeam] = FootballStats(
+            homeTeam.points + 3,
+            homeTeam.goalsFor + resultToAdd.homeTeamScore,
+            homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
+            homeTeam.goalDifference + resultToAdd.homeTeamScore - resultToAdd.awayTeamScore,
+            homeTeam.wins + 1,
+            homeTeam.draws,
+            homeTeam.losses
+        )
+        stats[resultToAdd.awayTeam] = FootballStats(
+            awayTeam.points,
+            awayTeam.goalsFor + resultToAdd.awayTeamScore,
+            awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
+            awayTeam.goalDifference + resultToAdd.awayTeamScore - resultToAdd.homeTeamScore,
+            awayTeam.wins,
+            awayTeam.draws,
+            awayTeam.losses + 1
+        )
     }
 
 }

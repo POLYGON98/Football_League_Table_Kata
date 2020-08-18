@@ -12,7 +12,7 @@ class LeagueTableShould {
 
     @Test
     internal fun `initialise with zero data for Manchester United`() {
-        assertZeroData(LeagueTable(), "Manchester United")
+        assertZeroData("Manchester United")
     }
 
     @Test
@@ -85,13 +85,20 @@ class LeagueTableShould {
         assertEquals(-2, leagueTable.getGoalDifference("Liverpool"))
     }
 
+    @Test
+    internal fun `return zero data after results pushed and non-existent team entered`() {
+        pushHomeWinAndDrawAndLoss()
+
+        assertZeroData("Tottenham Hotspur")
+    }
+
     private fun pushHomeWinAndDrawAndLoss() {
         leagueTable.push("Manchester United 3 - 0 Liverpool")
         leagueTable.push("Manchester United 1 - 1 Liverpool")
         leagueTable.push("Manchester United 1 - 2 Liverpool")
     }
 
-    private fun assertZeroData(leagueTable: LeagueTable, team: String) {
+    private fun assertZeroData(team: String) {
         assertEquals(0, leagueTable.getPoints(team))
         assertEquals(0, leagueTable.getGoalsFor(team))
         assertEquals(0, leagueTable.getGoalsAgainst(team))
