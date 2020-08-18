@@ -13,7 +13,7 @@ class LeagueTableShould {
 
         leagueTable.push("Manchester United 3 - 0 Liverpool")
 
-        assertEquals("Manchester United 3 - 0 Liverpool", leagueTable.results[0])
+        assertEquals("Manchester United 3 - 0 Liverpool", leagueTable.results[0].toString())
     }
 
     @Test
@@ -30,9 +30,10 @@ class LeagueTableShould {
         val leagueTable = LeagueTable()
 
         leagueTable.push("Manchester United 3 - 0 Liverpool")
-        leagueTable.push("Manchester United 2 - 0 Liverpool")
+        leagueTable.push("Manchester United 1 - 1 Liverpool")
 
-        assertEquals(6, leagueTable.getPoints("Manchester United"))
+        assertEquals(4, leagueTable.getPoints("Manchester United"))
+        assertEquals(1, leagueTable.getPoints("Liverpool"))
     }
 
     private fun assertZeroData(leagueTable: LeagueTable, team: String) {

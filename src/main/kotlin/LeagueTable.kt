@@ -1,14 +1,35 @@
 class LeagueTable {
 
-    val results = mutableListOf<String>()
+    val results = mutableListOf<FootballResult>()
 
     fun getPoints(team: String): Int {
-        if (results.size > 1)
-            return 6
-        if (results.size > 0)
-            return 3
-        return 0
+        var totalPoints = 0
+        for (result in results) {
+            if (isHomeTeam(result, team)) {
+                if (homeTeamHasWon(result))
+                    totalPoints += 3
+                if (thereWasDraw(result))
+                    totalPoints++
+            }
+            if (isAwayTeam(result, team)) {
+                if (awayTeamHasWon(result))
+                    totalPoints += 3
+                if (thereWasDraw(result))
+                    totalPoints++
+            }
+        }
+        return totalPoints
     }
+
+    private fun awayTeamHasWon(result: FootballResult) = result.awayTeamScore > result.homeTeamScore
+
+    private fun thereWasDraw(result: FootballResult) = result.homeTeamScore == result.awayTeamScore
+
+    private fun homeTeamHasWon(result: FootballResult) = result.homeTeamScore > result.awayTeamScore
+
+    private fun isAwayTeam(result: FootballResult, team: String) = result.awayTeam == team
+
+    private fun isHomeTeam(result: FootballResult, team: String) = result.homeTeam == team
 
     fun getGoalsFor(team: String): Int {
         return 0
@@ -35,7 +56,7 @@ class LeagueTable {
     }
 
     fun push(matchResult: String) {
-        results.add(matchResult)
+        results.add(FootballResult(matchResult))
     }
 
 }
