@@ -18,7 +18,7 @@ class LeagueTable {
     }
 
     fun getGoalsAgainst(team: String): Int {
-        return 0
+        return (stats[team] ?: FootballStats()).goalsAgainst
     }
 
     fun getGoalDifference(team: String): Int {
@@ -51,7 +51,7 @@ class LeagueTable {
             stats[resultToAdd.homeTeam] = FootballStats(
                 homeTeam.points + 3,
                 homeTeam.goalsFor + resultToAdd.homeTeamScore,
-                0,
+                homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
                 0,
                 homeTeam.wins + 1,
                 homeTeam.draws,
@@ -60,7 +60,7 @@ class LeagueTable {
             stats[resultToAdd.awayTeam] = FootballStats(
                 awayTeam.points,
                 awayTeam.goalsFor + resultToAdd.awayTeamScore,
-                0,
+                awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
                 0,
                 awayTeam.wins,
                 awayTeam.draws,
@@ -71,7 +71,7 @@ class LeagueTable {
             stats[resultToAdd.homeTeam] = FootballStats(
                 homeTeam.points,
                 homeTeam.goalsFor + resultToAdd.homeTeamScore,
-                0,
+                homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
                 0,
                 homeTeam.wins,
                 homeTeam.draws,
@@ -80,7 +80,7 @@ class LeagueTable {
             stats[resultToAdd.awayTeam] = FootballStats(
                 awayTeam.points + 3,
                 awayTeam.goalsFor + resultToAdd.awayTeamScore,
-                0,
+                awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
                 0,
                 awayTeam.wins + 1,
                 awayTeam.draws,
@@ -91,7 +91,7 @@ class LeagueTable {
             stats[resultToAdd.homeTeam] = FootballStats(
                 homeTeam.points + 1,
                 homeTeam.goalsFor + resultToAdd.homeTeamScore,
-                0,
+                homeTeam.goalsAgainst + resultToAdd.awayTeamScore,
                 0,
                 homeTeam.wins,
                 homeTeam.draws + 1,
@@ -100,7 +100,7 @@ class LeagueTable {
             stats[resultToAdd.awayTeam] = FootballStats(
                 awayTeam.points + 1,
                 awayTeam.goalsFor + resultToAdd.awayTeamScore,
-                0,
+                awayTeam.goalsAgainst + resultToAdd.homeTeamScore,
                 0,
                 awayTeam.wins,
                 awayTeam.draws + 1,
