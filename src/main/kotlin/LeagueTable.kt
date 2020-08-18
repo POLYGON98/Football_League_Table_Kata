@@ -26,7 +26,7 @@ class LeagueTable {
     }
 
     fun getWins(team: String): Int {
-        return stats[team]?.wins ?: 0
+        return (stats[team] ?: FootballStats()).wins
     }
 
     fun getDraws(team: String): Int {
@@ -34,7 +34,7 @@ class LeagueTable {
     }
 
     fun getLosses(team: String): Int {
-        return 0
+        return stats[team]?.losses ?: 0
     }
 
     fun push(matchResult: String) {
@@ -44,23 +44,70 @@ class LeagueTable {
     }
 
     private fun updateStats(resultToAdd: FootballResult) {
-        if (!stats.keys.contains(resultToAdd.homeTeam)) {
-            stats[resultToAdd.homeTeam] = FootballStats()
-        }
-        if (!stats.keys.contains(resultToAdd.awayTeam)) {
-            stats[resultToAdd.awayTeam] = FootballStats()
-        }
         val homeTeam = stats[resultToAdd.homeTeam] ?: FootballStats()
         val awayTeam = stats[resultToAdd.awayTeam] ?: FootballStats()
 
-        if (homeTeamHasWon(resultToAdd))
-            stats[resultToAdd.homeTeam] = FootballStats(homeTeam.points + 3, 0, 0, 0, homeTeam.wins + 1, homeTeam.draws, 0)
-        if (awayTeamHasWon(resultToAdd))
-            stats[resultToAdd.awayTeam] = FootballStats(awayTeam.points + 3, 0, 0, 0, awayTeam.wins + 1, awayTeam.draws, 0)
-        if (thereWasDraw(resultToAdd)) {
-            stats[resultToAdd.homeTeam] = FootballStats(homeTeam.points + 1, 0, 0, 0, homeTeam.wins, homeTeam.draws + 1, 0)
-            stats[resultToAdd.awayTeam] = FootballStats(awayTeam.points + 1, 0, 0, 0, awayTeam.wins, awayTeam.draws + 1, 0)
+        if (homeTeamHasWon(resultToAdd)){
+            stats[resultToAdd.homeTeam] = FootballStats(
+                homeTeam.points + 3,
+                0,
+                0,
+                0,
+                homeTeam.wins + 1,
+                homeTeam.draws,
+                homeTeam.losses
+            )
+            stats[resultToAdd.awayTeam] = FootballStats(
+                awayTeam.points,
+                0,
+                0,
+                0,
+                awayTeam.wins,
+                awayTeam.draws,
+                awayTeam.losses + 1
+            )
         }
+        if (awayTeamHasWon(resultToAdd)) {
+            stats[resultToAdd.homeTeam] = FootballStats(
+                homeTeam.points,
+                0,
+                0,
+                0,
+                homeTeam.wins,
+                homeTeam.draws,
+                homeTeam.losses + 1
+            )
+            stats[resultToAdd.awayTeam] = FootballStats(
+                awayTeam.points + 3,
+                0,
+                0,
+                0,
+                awayTeam.wins + 1,
+                awayTeam.draws,
+                awayTeam.losses
+            )
+        }
+        if (thereWasDraw(resultToAdd)) {
+            stats[resultToAdd.homeTeam] = FootballStats(
+                homeTeam.points + 1,
+                0,
+                0,
+                0,
+                homeTeam.wins,
+                homeTeam.draws + 1,
+                homeTeam.losses
+            )
+            stats[resultToAdd.awayTeam] = FootballStats(
+                awayTeam.points + 1,
+                0,
+                0,
+                0,
+                awayTeam.wins,
+                awayTeam.draws + 1,
+                awayTeam.losses
+            )
+        }
+
     }
 
 }

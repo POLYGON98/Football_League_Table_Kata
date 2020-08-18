@@ -53,7 +53,13 @@ class LeagueTableShould {
         assertEquals(1, leagueTable.getDraws("Liverpool"))
     }
 
+    @Test
+    internal fun `update losses after results pushed`() {
+        pushHomeWinAndDraw()
 
+        assertEquals(0, leagueTable.getLosses("Manchester United"))
+        assertEquals(1, leagueTable.getLosses("Liverpool"))
+    }
 
     private fun pushHomeWinAndDraw() {
         leagueTable.push("Manchester United 3 - 0 Liverpool")
