@@ -32,7 +32,6 @@ class LeagueTable {
     }
 
     fun push(matchResult: String) {
-        val resultToAdd = FootballResult(matchResult)
-        stats = statCalculator.update(resultToAdd, stats)
+        stats = statCalculator.update(FootballResult(matchResult), stats)
     }
 }
