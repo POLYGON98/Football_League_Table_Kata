@@ -1,7 +1,6 @@
 class LeagueTable {
 
     var stats = mutableMapOf<String, FootballStats>()
-    private val statCalculator = StatCalculator()
 
     fun getPoints(team: String): Int {
         return stats[team]?.points ?: 0
@@ -32,6 +31,12 @@ class LeagueTable {
     }
 
     fun push(matchResult: String) {
-        stats = statCalculator.update(FootballResult(matchResult), stats)
+        val result = FootballResult(matchResult)
+        val teamStatsPair = Pair(
+                stats[result.homeTeam] ?: FootballStats(),
+                stats[result.awayTeam] ?: FootballStats()
+        )
+        stats[result.homeTeam] = StatCalculator().update(FootballResult(matchResult), teamStatsPair).first
+        stats[result.awayTeam] = StatCalculator().update(FootballResult(matchResult), teamStatsPair).second
     }
 }
