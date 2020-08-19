@@ -4,6 +4,6 @@ import FootballResult
 import FootballStats
 
 interface ResultScenario {
-    fun updateHomeStats(result: FootballResult, homeTeam: FootballStats, awayTeam: FootballStats) : FootballStats
-    fun updateAwayStats(result: FootballResult, homeTeam: FootballStats, awayTeam: FootballStats) : FootballStats
+    fun updateHomeStats(result: FootballResult, statsPair: Pair<FootballStats, FootballStats>) : FootballStats
+    fun updateAwayStats(result: FootballResult, statsPair: Pair<FootballStats, FootballStats>) : FootballStats
 }

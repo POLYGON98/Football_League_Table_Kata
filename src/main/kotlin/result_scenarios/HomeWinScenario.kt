@@ -4,7 +4,8 @@ import FootballResult
 import FootballStats
 
 class HomeWinScenario : ResultScenario {
-    override fun updateHomeStats(result: FootballResult, homeTeam: FootballStats, awayTeam: FootballStats): FootballStats {
+    override fun updateHomeStats(result: FootballResult, statsPair: Pair<FootballStats, FootballStats>): FootballStats {
+        val homeTeam = statsPair.first
         return FootballStats(
                 homeTeam.points + 3,
                 homeTeam.goalsFor + result.homeTeamScore,
@@ -16,7 +17,8 @@ class HomeWinScenario : ResultScenario {
         )
     }
 
-    override fun updateAwayStats(result: FootballResult, homeTeam: FootballStats, awayTeam: FootballStats): FootballStats {
+    override fun updateAwayStats(result: FootballResult, statsPair: Pair<FootballStats, FootballStats>): FootballStats {
+        val awayTeam = statsPair.second
         return FootballStats(
                 awayTeam.points,
                 awayTeam.goalsFor + result.awayTeamScore,

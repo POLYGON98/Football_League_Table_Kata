@@ -2,8 +2,9 @@ import result_scenarios.*
 
 class StatCalculator {
     fun update(resultToAdd: FootballResult, stats: MutableMap<String, FootballStats>) : MutableMap<String, FootballStats> {
-        val homeTeam = stats[resultToAdd.homeTeam] ?: FootballStats()
-        val awayTeam = stats[resultToAdd.awayTeam] ?: FootballStats()
+        val homeTeamStats = stats[resultToAdd.homeTeam] ?: FootballStats()
+        val awayTeamStats = stats[resultToAdd.awayTeam] ?: FootballStats()
+        val teamStatsPair = Pair(homeTeamStats, awayTeamStats)
 
         val scenario = when {
             homeTeamHasWon(resultToAdd) -> ResultScenarioFactory().create("home")
@@ -11,8 +12,8 @@ class StatCalculator {
             else -> ResultScenarioFactory().create("draw")
         }
 
-        stats[resultToAdd.homeTeam] = scenario.updateHomeStats(resultToAdd, homeTeam, awayTeam)
-        stats[resultToAdd.awayTeam] = scenario.updateAwayStats(resultToAdd, homeTeam, awayTeam)
+        stats[resultToAdd.homeTeam] = scenario.updateHomeStats(resultToAdd, teamStatsPair)
+        stats[resultToAdd.awayTeam] = scenario.updateAwayStats(resultToAdd, teamStatsPair)
 
         return stats
 

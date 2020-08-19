@@ -6,9 +6,9 @@ import FootballStats
 class DrawScenario : ResultScenario {
     override fun updateHomeStats(
             result: FootballResult,
-            homeTeam: FootballStats,
-            awayTeam: FootballStats
+            statsPair: Pair<FootballStats, FootballStats>
     ): FootballStats {
+        val homeTeam = statsPair.first
         return FootballStats(
                 homeTeam.points + 1,
                 homeTeam.goalsFor + result.homeTeamScore,
@@ -22,9 +22,9 @@ class DrawScenario : ResultScenario {
 
     override fun updateAwayStats(
             result: FootballResult,
-            homeTeam: FootballStats,
-            awayTeam: FootballStats
+            statsPair: Pair<FootballStats, FootballStats>
     ): FootballStats {
+        val awayTeam = statsPair.second
         return FootballStats(
                 awayTeam.points + 1,
                 awayTeam.goalsFor + result.awayTeamScore,
