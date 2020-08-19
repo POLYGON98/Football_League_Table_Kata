@@ -36,7 +36,15 @@ class LeagueTable {
                 stats[result.homeTeam] ?: FootballStats(),
                 stats[result.awayTeam] ?: FootballStats()
         )
+        updateHomeStats(result, matchResult, teamStatsPair)
+        updateAwayStats(result, matchResult, teamStatsPair)
+    }
+
+    private fun updateHomeStats(result: FootballResult, matchResult: String, teamStatsPair: Pair<FootballStats, FootballStats>) {
         stats[result.homeTeam] = StatCalculator().update(FootballResult(matchResult), teamStatsPair).first
+    }
+
+    private fun updateAwayStats(result: FootballResult, matchResult: String, teamStatsPair: Pair<FootballStats, FootballStats>) {
         stats[result.awayTeam] = StatCalculator().update(FootballResult(matchResult), teamStatsPair).second
     }
 }
