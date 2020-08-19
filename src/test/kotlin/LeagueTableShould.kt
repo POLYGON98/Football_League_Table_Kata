@@ -16,13 +16,6 @@ class LeagueTableShould {
     }
 
     @Test
-    internal fun `push match result`() {
-        leagueTable.push("Manchester United 3 - 0 Liverpool")
-
-        assertEquals("Manchester United 3 - 0 Liverpool", leagueTable.results[0].toString())
-    }
-
-    @Test
     internal fun `update points after result pushed`() {
         leagueTable.push("Manchester United 3 - 0 Liverpool")
 

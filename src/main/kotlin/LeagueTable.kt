@@ -1,7 +1,7 @@
 class LeagueTable {
 
-    val results = mutableListOf<FootballResult>()
     var stats = mutableMapOf<String, FootballStats>()
+    private val statCalculator = StatCalculator()
 
     fun getPoints(team: String): Int {
         return stats[team]?.points ?: 0
@@ -33,35 +33,6 @@ class LeagueTable {
 
     fun push(matchResult: String) {
         val resultToAdd = FootballResult(matchResult)
-        results.add(resultToAdd)
-        updateStats(resultToAdd)
+        stats = statCalculator.update(resultToAdd, stats)
     }
-
-    private fun updateStats(resultToAdd: FootballResult) {
-        val homeTeam = stats[resultToAdd.homeTeam] ?: FootballStats()
-        val awayTeam = stats[resultToAdd.awayTeam] ?: FootballStats()
-        var scenario: ResultScenario
-
-        val scenarios = mapOf(
-            "home" to HomeWinScenario(),
-            "away" to AwayWinScenario()
-        )
-
-        var resultScenario = ""
-        if (homeTeamHasWon(resultToAdd))
-            resultScenario = "home"
-        if (awayTeamHasWon(resultToAdd))
-            resultScenario = "away"
-
-        scenario = scenarios[resultScenario] ?: DrawScenario()
-
-        stats[resultToAdd.homeTeam] = scenario.updateHomeStats(resultToAdd, homeTeam, awayTeam)
-        stats[resultToAdd.awayTeam] = scenario.updateAwayStats(resultToAdd, homeTeam, awayTeam)
-
-    }
-
-    private fun homeTeamHasWon(result: FootballResult) = result.homeTeamScore > result.awayTeamScore
-
-    private fun awayTeamHasWon(result: FootballResult) = result.awayTeamScore > result.homeTeamScore
-
 }
