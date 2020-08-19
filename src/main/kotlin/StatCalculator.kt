@@ -5,13 +5,11 @@ class StatCalculator {
         val homeTeam = stats[resultToAdd.homeTeam] ?: FootballStats()
         val awayTeam = stats[resultToAdd.awayTeam] ?: FootballStats()
 
-        var resultScenario = ""
-        if (homeTeamHasWon(resultToAdd))
-            resultScenario = "home"
-        if (awayTeamHasWon(resultToAdd))
-            resultScenario = "away"
-
-        val scenario = ResultScenarioFactory().create(resultScenario)
+        val scenario = when {
+            homeTeamHasWon(resultToAdd) -> ResultScenarioFactory().create("home")
+            awayTeamHasWon(resultToAdd) -> ResultScenarioFactory().create("away")
+            else -> ResultScenarioFactory().create("draw")
+        }
 
         stats[resultToAdd.homeTeam] = scenario.updateHomeStats(resultToAdd, homeTeam, awayTeam)
         stats[resultToAdd.awayTeam] = scenario.updateAwayStats(resultToAdd, homeTeam, awayTeam)
